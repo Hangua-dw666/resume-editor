@@ -6,6 +6,26 @@
           <span class="mr-2">👤</span>基本信息
         </h3>
         <div class="space-y-3">
+          <div class="flex items-center gap-3">
+            <div
+              class="w-14 h-18 border border-gray-300 rounded flex items-center justify-center bg-gray-50 overflow-hidden flex-shrink-0"
+              style="height: 72px;"
+            >
+              <img
+                v-if="resume.basicInfo.avatar"
+                :src="resume.basicInfo.avatar"
+                alt="头像"
+                class="w-full h-full object-cover"
+              />
+              <span v-else class="text-gray-400 text-xs">照片</span>
+            </div>
+            <button
+              @click="showAvatarUpload = true"
+              class="text-xs bg-blue-500 text-white px-3 py-2 rounded hover:bg-blue-600"
+            >
+              上传头像
+            </button>
+          </div>
           <div>
             <label class="block text-sm text-gray-600 mb-1">姓名</label>
             <input
@@ -16,58 +36,62 @@
               placeholder="请输入姓名"
             />
           </div>
-          <div>
-            <label class="block text-sm text-gray-600 mb-1">电话</label>
-            <input
-              type="text"
-              :value="resume.basicInfo.phone"
-              @input="updateBasicInfo({ phone: $event.target.value })"
-              class="editor-input"
-              placeholder="请输入电话"
-            />
+          <div class="grid grid-cols-2 gap-2">
+            <div>
+              <label class="block text-sm text-gray-600 mb-1">电话</label>
+              <input
+                type="text"
+                :value="resume.basicInfo.phone"
+                @input="updateBasicInfo({ phone: $event.target.value })"
+                class="editor-input"
+                placeholder="电话"
+              />
+            </div>
+            <div>
+              <label class="block text-sm text-gray-600 mb-1">邮箱</label>
+              <input
+                type="text"
+                :value="resume.basicInfo.email"
+                @input="updateBasicInfo({ email: $event.target.value })"
+                class="editor-input"
+                placeholder="邮箱"
+              />
+            </div>
           </div>
-          <div>
-            <label class="block text-sm text-gray-600 mb-1">邮箱</label>
-            <input
-              type="text"
-              :value="resume.basicInfo.email"
-              @input="updateBasicInfo({ email: $event.target.value })"
-              class="editor-input"
-              placeholder="请输入邮箱"
-            />
+          <div class="grid grid-cols-2 gap-2">
+            <div>
+              <label class="block text-sm text-gray-600 mb-1">求职意向</label>
+              <input
+                type="text"
+                :value="resume.basicInfo.intention"
+                @input="updateBasicInfo({ intention: $event.target.value })"
+                class="editor-input"
+                placeholder="求职意向"
+              />
+            </div>
+            <div>
+              <label class="block text-sm text-gray-600 mb-1">期望城市</label>
+              <input
+                type="text"
+                :value="resume.basicInfo.city"
+                @input="updateBasicInfo({ city: $event.target.value })"
+                class="editor-input"
+                placeholder="期望城市"
+              />
+            </div>
           </div>
-          <div>
-            <label class="block text-sm text-gray-600 mb-1">求职意向</label>
-            <input
-              type="text"
-              :value="resume.basicInfo.intention"
-              @input="updateBasicInfo({ intention: $event.target.value })"
-              class="editor-input"
-              placeholder="请输入求职意向"
-            />
-          </div>
-          <div>
-            <label class="block text-sm text-gray-600 mb-1">期望城市</label>
-            <input
-              type="text"
-              :value="resume.basicInfo.city"
-              @input="updateBasicInfo({ city: $event.target.value })"
-              class="editor-input"
-              placeholder="请输入期望城市"
-            />
-          </div>
-          <div>
-            <label class="block text-sm text-gray-600 mb-1">头像（可选）</label>
-            <input
-              type="text"
-              :value="resume.basicInfo.avatar"
-              @input="updateBasicInfo({ avatar: $event.target.value })"
-              class="editor-input"
-              placeholder="请输入头像URL"
-            />
-          </div>
+          <p class="text-xs text-gray-400">
+            提示：预览顶部将以 "电话 | 邮箱 | 求职意向 | 期望城市" 形式紧凑展示
+          </p>
         </div>
       </div>
+
+      <AvatarUpload
+        :show="showAvatarUpload"
+        :current-avatar="resume.basicInfo.avatar"
+        @close="showAvatarUpload = false"
+        @confirm="handleAvatarConfirm"
+      />
 
       <div>
         <h3 class="font-bold text-lg mb-4 flex items-center justify-between">
@@ -446,11 +470,19 @@
 </template>
 
 <script setup>
+import { ref } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useResumeStore } from '../stores/resume'
+import AvatarUpload from './AvatarUpload.vue'
 
 const resumeStore = useResumeStore()
 const { data: resume } = storeToRefs(resumeStore)
+
+const showAvatarUpload = ref(false)
+
+const handleAvatarConfirm = (avatarData) => {
+  updateBasicInfo({ avatar: avatarData })
+}
 
 const {
   updateBasicInfo,

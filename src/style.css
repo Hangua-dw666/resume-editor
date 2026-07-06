@@ -63,7 +63,9 @@ body {
   min-height: 297mm;
   background-color: #fff;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  padding: 20mm;
+  padding: 15mm 16mm;
+  display: flex;
+  flex-direction: column;
 }
 
 @media print {
