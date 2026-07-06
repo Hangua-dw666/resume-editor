@@ -50,7 +50,9 @@
             <span class="exp-date">{{ work.startDate }} - {{ work.endDate }}</span>
           </div>
           <ul class="exp-desc-list">
-            <li v-for="(desc, idx) in work.description" :key="idx">{{ desc }}</li>
+            <li v-for="(desc, idx) in work.description" :key="idx">
+              <span v-html="formatDesc(desc)"></span>
+            </li>
           </ul>
         </div>
       </div>
@@ -69,7 +71,9 @@
             <span class="exp-date">{{ project.startDate }} - {{ project.endDate }}</span>
           </div>
           <ul class="exp-desc-list">
-            <li v-for="(desc, idx) in project.description" :key="idx">{{ desc }}</li>
+            <li v-for="(desc, idx) in project.description" :key="idx">
+              <span v-html="formatDesc(desc)"></span>
+            </li>
           </ul>
         </div>
       </div>
@@ -88,7 +92,9 @@
             <span class="exp-date">{{ campus.startDate }} - {{ campus.endDate }}</span>
           </div>
           <ul class="exp-desc-list">
-            <li v-for="(desc, idx) in campus.description" :key="idx">{{ desc }}</li>
+            <li v-for="(desc, idx) in campus.description" :key="idx">
+              <span v-html="formatDesc(desc)"></span>
+            </li>
           </ul>
         </div>
       </div>
@@ -118,6 +124,20 @@ import { useResumeStore } from '../stores/resume'
 
 const resumeStore = useResumeStore()
 const { data: resume } = storeToRefs(resumeStore)
+
+// 转义 HTML 特殊字符，防止 XSS
+const escapeHtml = (str) => {
+  return str
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+}
+
+// 格式化描述文本：支持 **小标题** 加粗语法
+const formatDesc = (desc) => {
+  const escaped = escapeHtml(desc)
+  return escaped.replace(/\*\*(.+?)\*\*/g, '<strong class="sub-title">$1</strong>')
+}
 </script>
 
 <style scoped>
@@ -127,11 +147,9 @@ const { data: resume } = storeToRefs(resumeStore)
   color: #000;
 }
 
-/* 顶部信息区 - 压缩到最小 */
+/* 顶部信息区 - 无横线 */
 .header-section {
-  padding-bottom: 10px;
-  border-bottom: 2px solid #000;
-  margin-bottom: 12px;
+  margin-bottom: 14px;
 }
 
 .name-text {
@@ -192,8 +210,7 @@ const { data: resume } = storeToRefs(resumeStore)
 .section-title {
   font-size: 15px;
   font-weight: 700;
-  border-left: 3px solid #000;
-  padding-left: 8px;
+  padding-left: 0;
   margin-bottom: 8px;
   line-height: 1.3;
 }
@@ -279,6 +296,12 @@ const { data: resume } = storeToRefs(resumeStore)
   left: 4px;
   top: 0;
   font-weight: bold;
+  color: #000;
+}
+
+/* 子任务小标题加粗 */
+:deep(.sub-title) {
+  font-weight: 700;
   color: #000;
 }
 

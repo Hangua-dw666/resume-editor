@@ -20,7 +20,7 @@
           <div v-else class="upload-placeholder">
             <span class="upload-icon">📷</span>
             <p>点击选择照片</p>
-            <p class="upload-tip">建议尺寸：150×200px，大小不超过 2MB</p>
+            <p class="upload-tip">建议尺寸：150×200px，大小不超过 10MB</p>
           </div>
         </div>
         <div v-if="errorMessage" class="error-msg">{{ errorMessage }}</div>
@@ -78,9 +78,9 @@ const handleFileChange = (e) => {
     return
   }
 
-  // 大小校验（2MB）
-  if (file.size > 2 * 1024 * 1024) {
-    errorMessage.value = '图片大小不能超过 2MB'
+  // 大小校验（10MB）
+  if (file.size > 10 * 1024 * 1024) {
+    errorMessage.value = '图片大小不能超过 10MB'
     return
   }
 

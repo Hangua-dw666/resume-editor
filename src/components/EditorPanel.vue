@@ -204,6 +204,7 @@
               />
             </div>
             <div class="space-y-2">
+              <p class="text-xs text-gray-400">提示：用 **文字** 可给子任务标题加粗，如 **数据搭建**：负责...</p>
               <div
                 v-for="(desc, idx) in work.description"
                 :key="idx"
@@ -285,6 +286,7 @@
               />
             </div>
             <div class="space-y-2">
+              <p class="text-xs text-gray-400">提示：用 **文字** 可给子任务标题加粗，如 **模型设计**：基于...</p>
               <div
                 v-for="(desc, idx) in project.description"
                 :key="idx"
