@@ -49,12 +49,18 @@
             </div>
             <span class="exp-date">{{ work.startDate }} - {{ work.endDate }}</span>
           </div>
-          <p v-if="work.summary" class="exp-summary">{{ work.summary }}</p>
-          <ul v-if="work.responsibilities && work.responsibilities.length" class="exp-desc-list">
-            <li v-for="(resp, idx) in work.responsibilities" :key="idx">
-              <span v-html="formatDesc(resp)"></span>
-            </li>
-          </ul>
+          <div v-if="work.summary" class="exp-sub-block">
+            <span class="sub-label">项目描述：</span>
+            <span class="exp-summary">{{ work.summary }}</span>
+          </div>
+          <div v-if="work.responsibilities && work.responsibilities.length" class="exp-sub-block">
+            <span class="sub-label">项目职责：</span>
+            <ul class="exp-desc-list">
+              <li v-for="(resp, idx) in work.responsibilities" :key="idx">
+                <span v-html="formatDesc(resp)"></span>
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
     </section>
@@ -71,12 +77,18 @@
             </div>
             <span class="exp-date">{{ project.startDate }} - {{ project.endDate }}</span>
           </div>
-          <p v-if="project.summary" class="exp-summary">{{ project.summary }}</p>
-          <ul v-if="project.responsibilities && project.responsibilities.length" class="exp-desc-list">
-            <li v-for="(resp, idx) in project.responsibilities" :key="idx">
-              <span v-html="formatDesc(resp)"></span>
-            </li>
-          </ul>
+          <div v-if="project.summary" class="exp-sub-block">
+            <span class="sub-label">项目描述：</span>
+            <span class="exp-summary">{{ project.summary }}</span>
+          </div>
+          <div v-if="project.responsibilities && project.responsibilities.length" class="exp-sub-block">
+            <span class="sub-label">项目职责：</span>
+            <ul class="exp-desc-list">
+              <li v-for="(resp, idx) in project.responsibilities" :key="idx">
+                <span v-html="formatDesc(resp)"></span>
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
     </section>
@@ -277,11 +289,20 @@ const formatDesc = (desc) => {
   flex-shrink: 0;
 }
 
+.exp-sub-block {
+  margin-top: 4px;
+}
+
+.sub-label {
+  font-weight: 700;
+  font-size: 13px;
+  color: #000;
+}
+
 .exp-summary {
   font-size: 13px;
   line-height: 1.65;
   color: #333;
-  margin: 2px 0 4px 0;
 }
 
 .exp-desc-list {
