@@ -49,9 +49,10 @@
             </div>
             <span class="exp-date">{{ work.startDate }} - {{ work.endDate }}</span>
           </div>
-          <ul class="exp-desc-list">
-            <li v-for="(desc, idx) in work.description" :key="idx">
-              <span v-html="formatDesc(desc)"></span>
+          <p v-if="work.summary" class="exp-summary">{{ work.summary }}</p>
+          <ul v-if="work.responsibilities && work.responsibilities.length" class="exp-desc-list">
+            <li v-for="(resp, idx) in work.responsibilities" :key="idx">
+              <span v-html="formatDesc(resp)"></span>
             </li>
           </ul>
         </div>
@@ -70,9 +71,10 @@
             </div>
             <span class="exp-date">{{ project.startDate }} - {{ project.endDate }}</span>
           </div>
-          <ul class="exp-desc-list">
-            <li v-for="(desc, idx) in project.description" :key="idx">
-              <span v-html="formatDesc(desc)"></span>
+          <p v-if="project.summary" class="exp-summary">{{ project.summary }}</p>
+          <ul v-if="project.responsibilities && project.responsibilities.length" class="exp-desc-list">
+            <li v-for="(resp, idx) in project.responsibilities" :key="idx">
+              <span v-html="formatDesc(resp)"></span>
             </li>
           </ul>
         </div>
@@ -273,6 +275,13 @@ const formatDesc = (desc) => {
   color: #666;
   font-size: 12px;
   flex-shrink: 0;
+}
+
+.exp-summary {
+  font-size: 13px;
+  line-height: 1.65;
+  color: #333;
+  margin: 2px 0 4px 0;
 }
 
 .exp-desc-list {

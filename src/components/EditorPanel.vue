@@ -204,30 +204,41 @@
               />
             </div>
             <div class="space-y-2">
+              <div class="mb-2">
+                <label class="block text-xs text-gray-500 mb-1">项目描述（一段话，不分点）</label>
+                <textarea
+                  :value="work.summary"
+                  @input="updateWorkExperience(work.id, { summary: $event.target.value })"
+                  class="editor-textarea text-sm"
+                  placeholder="用一段话描述项目/岗位整体情况"
+                  rows="2"
+                ></textarea>
+              </div>
+              <label class="block text-xs text-gray-500">项目职责（分点，支持 **加粗**）</label>
               <p class="text-xs text-gray-400">提示：用 **文字** 可给子任务标题加粗，如 **数据搭建**：负责...</p>
               <div
-                v-for="(desc, idx) in work.description"
+                v-for="(resp, idx) in work.responsibilities"
                 :key="idx"
                 class="flex items-center"
               >
                 <textarea
-                  :value="desc"
-                  @input="updateWorkDescription(work.id, idx, $event.target.value)"
+                  :value="resp"
+                  @input="updateWorkResponsibility(work.id, idx, $event.target.value)"
                   class="editor-textarea text-sm flex-1 mr-2"
                   placeholder="职责描述"
                 ></textarea>
                 <button
-                  @click="removeWorkDescription(work.id, idx)"
+                  @click="removeWorkResponsibility(work.id, idx)"
                   class="text-xs text-red-500 hover:text-red-700"
                 >
                   ×
                 </button>
               </div>
               <button
-                @click="addWorkDescription(work.id)"
+                @click="addWorkResponsibility(work.id)"
                 class="text-xs text-blue-500 hover:text-blue-700"
               >
-                + 添加描述
+                + 添加职责
               </button>
             </div>
           </div>
@@ -286,30 +297,41 @@
               />
             </div>
             <div class="space-y-2">
+              <div class="mb-2">
+                <label class="block text-xs text-gray-500 mb-1">项目描述（一段话，不分点）</label>
+                <textarea
+                  :value="project.summary"
+                  @input="updateProjectExperience(project.id, { summary: $event.target.value })"
+                  class="editor-textarea text-sm"
+                  placeholder="用一段话描述项目整体情况"
+                  rows="2"
+                ></textarea>
+              </div>
+              <label class="block text-xs text-gray-500">项目职责（分点，支持 **加粗**）</label>
               <p class="text-xs text-gray-400">提示：用 **文字** 可给子任务标题加粗，如 **模型设计**：基于...</p>
               <div
-                v-for="(desc, idx) in project.description"
+                v-for="(resp, idx) in project.responsibilities"
                 :key="idx"
                 class="flex items-center"
               >
                 <textarea
-                  :value="desc"
-                  @input="updateProjectDescription(project.id, idx, $event.target.value)"
+                  :value="resp"
+                  @input="updateProjectResponsibility(project.id, idx, $event.target.value)"
                   class="editor-textarea text-sm flex-1 mr-2"
-                  placeholder="项目描述"
+                  placeholder="职责描述"
                 ></textarea>
                 <button
-                  @click="removeProjectDescription(project.id, idx)"
+                  @click="removeProjectResponsibility(project.id, idx)"
                   class="text-xs text-red-500 hover:text-red-700"
                 >
                   ×
                 </button>
               </div>
               <button
-                @click="addProjectDescription(project.id)"
+                @click="addProjectResponsibility(project.id)"
                 class="text-xs text-blue-500 hover:text-blue-700"
               >
-                + 添加描述
+                + 添加职责
               </button>
             </div>
           </div>
@@ -509,50 +531,50 @@ const {
   resetToDefault,
 } = resumeStore
 
-const updateWorkDescription = (id, idx, value) => {
+const updateWorkResponsibility = (id, idx, value) => {
   const work = resume.value.workExperience.find((w) => w.id === id)
   if (work) {
-    work.description[idx] = value
+    work.responsibilities[idx] = value
     resumeStore.saveData()
   }
 }
 
-const addWorkDescription = (id) => {
+const addWorkResponsibility = (id) => {
   const work = resume.value.workExperience.find((w) => w.id === id)
   if (work) {
-    work.description.push('新描述')
+    work.responsibilities.push('新职责')
     resumeStore.saveData()
   }
 }
 
-const removeWorkDescription = (id, idx) => {
+const removeWorkResponsibility = (id, idx) => {
   const work = resume.value.workExperience.find((w) => w.id === id)
   if (work) {
-    work.description.splice(idx, 1)
+    work.responsibilities.splice(idx, 1)
     resumeStore.saveData()
   }
 }
 
-const updateProjectDescription = (id, idx, value) => {
+const updateProjectResponsibility = (id, idx, value) => {
   const project = resume.value.projectExperience.find((p) => p.id === id)
   if (project) {
-    project.description[idx] = value
+    project.responsibilities[idx] = value
     resumeStore.saveData()
   }
 }
 
-const addProjectDescription = (id) => {
+const addProjectResponsibility = (id) => {
   const project = resume.value.projectExperience.find((p) => p.id === id)
   if (project) {
-    project.description.push('新描述')
+    project.responsibilities.push('新职责')
     resumeStore.saveData()
   }
 }
 
-const removeProjectDescription = (id, idx) => {
+const removeProjectResponsibility = (id, idx) => {
   const project = resume.value.projectExperience.find((p) => p.id === id)
   if (project) {
-    project.description.splice(idx, 1)
+    project.responsibilities.splice(idx, 1)
     resumeStore.saveData()
   }
 }
