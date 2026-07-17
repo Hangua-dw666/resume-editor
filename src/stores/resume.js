@@ -109,7 +109,31 @@ export const useResumeStore = defineStore('resume', () => {
   const loadData = () => {
     const saved = loadResume()
     if (saved) {
+      // 数据迁移：将旧的 description 结构迁移为 summary + responsibilities
+      if (saved.workExperience) {
+        saved.workExperience.forEach((w) => {
+          if (w.description && !w.responsibilities) {
+            w.responsibilities = w.description
+            w.summary = ''
+            delete w.description
+          }
+          if (!w.responsibilities) w.responsibilities = []
+          if (!w.summary) w.summary = ''
+        })
+      }
+      if (saved.projectExperience) {
+        saved.projectExperience.forEach((p) => {
+          if (p.description && !p.responsibilities) {
+            p.responsibilities = p.description
+            p.summary = ''
+            delete p.description
+          }
+          if (!p.responsibilities) p.responsibilities = []
+          if (!p.summary) p.summary = ''
+        })
+      }
       data.value = saved
+      saveData()
     }
   }
 
