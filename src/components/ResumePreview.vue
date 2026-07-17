@@ -51,7 +51,7 @@
           </div>
           <div v-if="work.summary" class="exp-sub-block">
             <span class="sub-label">项目描述：</span>
-            <span class="exp-summary">{{ work.summary }}</span>
+            <span class="exp-summary" v-html="formatDesc(work.summary)"></span>
           </div>
           <div v-if="work.responsibilities && work.responsibilities.length" class="exp-sub-block">
             <span class="sub-label">项目职责：</span>
@@ -79,7 +79,7 @@
           </div>
           <div v-if="project.summary" class="exp-sub-block">
             <span class="sub-label">项目描述：</span>
-            <span class="exp-summary">{{ project.summary }}</span>
+            <span class="exp-summary" v-html="formatDesc(project.summary)"></span>
           </div>
           <div v-if="project.responsibilities && project.responsibilities.length" class="exp-sub-block">
             <span class="sub-label">项目职责：</span>
@@ -147,10 +147,12 @@ const escapeHtml = (str) => {
     .replace(/>/g, '&gt;')
 }
 
-// 格式化描述文本：支持 **小标题** 加粗语法
+// 格式化描述文本：支持 **小标题** 加粗语法和换行
 const formatDesc = (desc) => {
   const escaped = escapeHtml(desc)
-  return escaped.replace(/\*\*(.+?)\*\*/g, '<strong class="sub-title">$1</strong>')
+  return escaped
+    .replace(/\*\*(.+?)\*\*/g, '<strong class="sub-title">$1</strong>')
+    .replace(/\n/g, '<br>')
 }
 </script>
 
